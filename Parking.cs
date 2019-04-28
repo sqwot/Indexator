@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Indexator {
-    class Parking {
+    class Parking : IEnumerable{
         private List<Car> _cars = new List<Car>();
         private const int MAX_CARS = 100;
         public int Count => _cars.Count;
@@ -51,5 +52,25 @@ namespace Indexator {
                 _cars.Remove(car);
             }
         }
+
+        public IEnumerator GetEnumerator() {
+            foreach(var car in _cars) {
+                yield return car;
+            }
+        }
+        public IEnumerable GetNames() {
+            foreach (var car in _cars) {
+                yield return car.Name;
+            }
+        }
+
+        //public IEnumerator<Car> GetEnumerator() {
+        //    return _cars.GetEnumerator();
+        //}
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return ((IEnumerable)_cars).GetEnumerator();
+        }
     }
+
 }
